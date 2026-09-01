@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ChartColumn, Settings2, Sun, Moon } from 'lucide-react';
+import { ChartColumn, Settings2, Sun, Moon, PiggyBank, Repeat } from 'lucide-react';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useTheme } from '@/hooks/useTheme';
 import SummaryCards from '@/components/SummaryCards';
@@ -11,11 +11,14 @@ import AnalyticsModal from '@/components/AnalyticsModal';
 import BudgetModal from '@/components/BudgetModal';
 import SettingsModal from '@/components/SettingsModal';
 import EditTransactionModal from '@/components/EditTransactionModal';
+import GoalsModal from '@/components/GoalsModal';
+import RecurringModal from '@/components/RecurringModal';
 import UndoToast from '@/components/UndoToast';
 import PwaRegister from '@/components/PwaRegister';
 import { SectionCard } from '@/components/Card';
 import { currentMonthAnchor } from '@/lib/utils';
 import type { Transaction } from '@/lib/types';
+import type { RecurringRule } from '@/lib/recurring';
 
 export default function Home() {
   const {
@@ -37,6 +40,8 @@ export default function Home() {
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showBudget, setShowBudget] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showGoals, setShowGoals] = useState(false);
+  const [showRecurring, setShowRecurring] = useState(false);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [budgetKey, setBudgetKey] = useState(0);
   const [showUndo, setShowUndo] = useState(false);
@@ -74,6 +79,20 @@ export default function Home() {
             aria-label="Phân tích"
           >
             <ChartColumn size={17} />
+          </button>
+          <button
+            onClick={() => setShowGoals(true)}
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 text-[var(--muted)] shadow-xs transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
+            aria-label="Mục tiêu"
+          >
+            <PiggyBank size={17} />
+          </button>
+          <button
+            onClick={() => setShowRecurring(true)}
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 text-[var(--muted)] shadow-xs transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
+            aria-label="Định kỳ"
+          >
+            <Repeat size={17} />
           </button>
           <button
             onClick={() => setShowSettings(true)}
@@ -137,6 +156,26 @@ export default function Home() {
         onExportCsv={exportCsv}
         onImport={importData}
         onClose={() => setShowSettings(false)}
+      />
+
+      <GoalsModal show={showGoals} onClose={() => setShowGoals(false)} />
+
+      <RecurringModal
+        show={showRecurring}
+        onClose={() => setShowRecurring(false)}
+        onAddRule={(rule: RecurringRule) => {
+          const year = new Date().getFullYear();
+          const month = new Date().getMonth() + 1;
+          const day = Math.min(rule.dayOfMonth, 28);
+          const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          addTransaction({
+            type: rule.type,
+            amount: rule.amount,
+            category: rule.category,
+            note: rule.note,
+            date,
+          });
+        }}
       />
 
       <EditTransactionModal

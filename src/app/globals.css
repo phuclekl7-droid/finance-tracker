@@ -104,12 +104,22 @@
 
 html {
   background: var(--bg);
+  /* Giữ chỗ scrollbar để khi khóa scroll (modal) nội dung không bị nhảy ngang */
+  scrollbar-gutter: stable;
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Transition màu nền/chữ khi đổi theme — tránh nháy */
+.bg-transition,
+div, button, input, section, span, h1, h2, h3, p {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
 }
 
 .font-display {
