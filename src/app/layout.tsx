@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finance Tracker - Quản lý chi tiêu cá nhân",
+  title: "Sổ chi tiêu - Quản lý tài chính cá nhân",
   description: "Theo dõi thu nhập, chi tiêu và phân tích tài chính cá nhân",
 };
 

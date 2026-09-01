@@ -71,3 +71,47 @@ export async function clearAllTransactions(): Promise<void> {
     tx.onerror = () => reject(tx.error);
   });
 }
+
+export interface BackupFile {
+  version: 1;
+  exportedAt: string;
+  transactions: Transaction[];
+}
+
+/** Lấy toàn bộ dữ liệu để xuất ra file JSON */
+export async function exportTransactions(): Promise<BackupFile> {
+  const transactions = await getAllTransactions();
+  return {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    transactions,
+  };
+}
+
+/** Ghi đè dữ liệu từ file JSON khôi phục; trả về số giao dịch đã nạp */
+export async function importTransactions(json: string): Promise<number> {
+  const parsed = JSON.parse(json) as BackupFile;
+  if (!parsed || parsed.version !== 1 || !Array.isArray(parsed.transactions)) {
+    throw new Error('File sao lưu không hợp lệ');
+  }
+  const list: Transaction[] = parsed.transactions.filter(
+    (t) =>
+      t &&
+      typeof t.id === 'string' &&
+      (t.type === 'expense' || t.type === 'income') &&
+      typeof t.amount === 'number' &&
+      t.amount > 0 &&
+      typeof t.date === 'string' &&
+      typeof t.note === 'string' &&
+      typeof t.createdAt === 'number',
+  );
+  const db = await openDb();
+  const tx = db.transaction(STORE, 'readwrite');
+  const store = tx.objectStore(STORE);
+  for (const t of list) store.put(t);
+  await new Promise<void>((resolve, reject) => {
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+  return list.length;
+}

@@ -5,7 +5,9 @@ import type { Transaction } from '@/lib/types';
 import {
   clearAllTransactions,
   deleteTransaction,
+  exportTransactions,
   getAllTransactions,
+  importTransactions,
   putTransaction,
 } from '@/lib/db';
 import { nanoid } from 'nanoid';
@@ -42,6 +44,18 @@ export function useTransactions() {
     setTransactions([]);
   }, []);
 
+  const exportData = useCallback(async (): Promise<string> => {
+    const backup = await exportTransactions();
+    return JSON.stringify(backup, null, 2);
+  }, []);
+
+  const importData = useCallback(async (json: string): Promise<number> => {
+    const count = await importTransactions(json);
+    const reloaded = await getAllTransactions();
+    setTransactions(reloaded);
+    return count;
+  }, []);
+
   const addSampleData = useCallback(async () => {
     const now = new Date();
     const iso = (d: Date) =>
@@ -76,5 +90,14 @@ export function useTransactions() {
     setTransactions((prev) => [...prev, ...full]);
   }, []);
 
-  return { transactions, loaded, addTransaction, removeTransaction, clearAll, addSampleData };
+  return {
+    transactions,
+    loaded,
+    addTransaction,
+    removeTransaction,
+    clearAll,
+    exportData,
+    importData,
+    addSampleData,
+  };
 }
