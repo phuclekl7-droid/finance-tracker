@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChartColumn, Settings2, Sun, Moon } from 'lucide-react';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useTheme } from '@/hooks/useTheme';
@@ -11,6 +11,8 @@ import AnalyticsModal from '@/components/AnalyticsModal';
 import BudgetModal from '@/components/BudgetModal';
 import SettingsModal from '@/components/SettingsModal';
 import EditTransactionModal from '@/components/EditTransactionModal';
+import UndoToast from '@/components/UndoToast';
+import PwaRegister from '@/components/PwaRegister';
 import { SectionCard } from '@/components/Card';
 import { currentMonthAnchor } from '@/lib/utils';
 import type { Transaction } from '@/lib/types';
@@ -21,6 +23,8 @@ export default function Home() {
     loaded,
     addTransaction,
     removeTransaction,
+    undoDelete,
+    lastDeleted,
     editTransaction,
     clearAll,
     exportData,
@@ -35,6 +39,14 @@ export default function Home() {
   const [showSettings, setShowSettings] = useState(false);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [budgetKey, setBudgetKey] = useState(0);
+  const [showUndo, setShowUndo] = useState(false);
+
+  useEffect(() => {
+    if (!lastDeleted) return;
+    setShowUndo(true);
+    const t = window.setTimeout(() => setShowUndo(false), 5000);
+    return () => window.clearTimeout(t);
+  }, [lastDeleted]);
 
   if (!mounted) return null;
 
@@ -140,6 +152,16 @@ export default function Home() {
           onClose={() => setEditingTx(null)}
         />
       )}
+
+      <UndoToast
+        visible={showUndo}
+        onUndo={() => {
+          undoDelete();
+          setShowUndo(false);
+        }}
+      />
+
+      <PwaRegister />
     </div>
   );
 }

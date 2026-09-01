@@ -17,6 +17,7 @@ import { transactionsToCsv } from '@/lib/utils';
 export function useTransactions() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [lastDeleted, setLastDeleted] = useState<Transaction | null>(null);
 
   useEffect(() => {
     getAllTransactions()
@@ -37,9 +38,18 @@ export function useTransactions() {
   }, []);
 
   const removeTransaction = useCallback(async (id: string) => {
+    const target = transactions.find((t) => t.id === id);
     await deleteTransaction(id);
     setTransactions((prev) => prev.filter((t) => t.id !== id));
-  }, []);
+    setLastDeleted(target ?? null);
+  }, [transactions]);
+
+  const undoDelete = useCallback(async () => {
+    if (!lastDeleted) return;
+    await putTransaction(lastDeleted);
+    setTransactions((prev) => [...prev, lastDeleted]);
+    setLastDeleted(null);
+  }, [lastDeleted]);
 
   const editTransaction = useCallback(async (t: Transaction) => {
     await updateTransaction(t);
@@ -106,6 +116,8 @@ export function useTransactions() {
     loaded,
     addTransaction,
     removeTransaction,
+    undoDelete,
+    lastDeleted,
     editTransaction,
     clearAll,
     exportData,

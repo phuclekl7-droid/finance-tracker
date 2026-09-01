@@ -15,6 +15,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Sổ chi tiêu - Quản lý tài chính cá nhân",
   description: "Theo dõi thu nhập, chi tiêu và phân tích tài chính cá nhân",
+  manifest: "/finance-tracker/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Sổ chi tiêu",
+  },
+  icons: {
+    icon: "/finance-tracker/icon.svg",
+    apple: "/finance-tracker/icon.svg",
+  },
+};
+
+export const viewport = {
+  themeColor: "#1c1917",
 };
 
 export default function RootLayout({
