@@ -70,7 +70,7 @@ export default function TransactionForm({ onAdd }: Props) {
           placeholder="0"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full rounded-2xl border border-stone-200 bg-white px-5 py-3.5 text-right text-2xl font-bold text-stone-800 outline-none transition-colors focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-100"
+          className="w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3.5 text-right text-2xl font-bold text-[var(--fg)] outline-none transition-colors focus:border-[var(--muted)] focus:ring-2 focus:ring-[var(--border-soft)]"
           autoFocus
         />
         <span className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-sm font-medium text-stone-400">
@@ -101,8 +101,8 @@ export default function TransactionForm({ onAdd }: Props) {
             onClick={() => setCategory(c.id)}
             className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-2.5 text-xs font-medium transition-colors ${
               category === c.id
-                ? 'border-stone-800 bg-stone-800 text-white dark:border-stone-500 dark:bg-stone-600'
-                : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-300'
+                ? 'bg-[var(--hero)] text-[var(--hero-fg)]'
+                : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:bg-[var(--surface-soft)]'
             }`}
           >
             <CategoryIcon
@@ -121,7 +121,7 @@ export default function TransactionForm({ onAdd }: Props) {
         placeholder="Ghi chú (không bắt buộc)"
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-700 outline-none transition-colors focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-200"
+        className="w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--fg)] outline-none transition-colors focus:border-[var(--muted)] focus:ring-2 focus:ring-[var(--border-soft)]"
       />
 
       {/* Ngày */}
@@ -129,7 +129,7 @@ export default function TransactionForm({ onAdd }: Props) {
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-700 outline-none transition-colors focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-200"
+        className="w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--fg)] outline-none transition-colors focus:border-[var(--muted)] focus:ring-2 focus:ring-[var(--border-soft)]"
       />
 
       {/* Nút thêm */}

@@ -61,17 +61,17 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
       <div className="flex items-center justify-between">
         <button
           onClick={() => onAnchorChange(shiftMonth(anchor, -1))}
-          className="rounded-full p-1.5 text-stone-400 transition-colors hover:bg-stone-200/70 hover:text-stone-700 dark:text-stone-500 dark:hover:bg-stone-700/70 dark:hover:text-stone-300"
+          className="rounded-full p-1.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
           aria-label="Tháng trước"
         >
           <ChevronLeft size={18} />
         </button>
-        <span className="text-sm font-semibold text-stone-600 dark:text-stone-300">
+        <span className="text-sm font-semibold text-[var(--fg)]">
           {getMonthLabel(anchor.year, anchor.month)}
         </span>
         <button
           onClick={() => onAnchorChange(shiftMonth(anchor, 1))}
-          className="rounded-full p-1.5 text-stone-400 transition-colors hover:bg-stone-200/70 hover:text-stone-700 dark:text-stone-500 dark:hover:bg-stone-700/70 dark:hover:text-stone-300"
+          className="rounded-full p-1.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
           aria-label="Tháng sau"
         >
           <ChevronRight size={18} />
@@ -79,12 +79,12 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
       </div>
 
       {/* Hero: số dư */}
-      <div className="rounded-3xl bg-stone-900 p-6 text-white dark:bg-stone-950">
+      <div className="rounded-3xl bg-[var(--hero)] p-6 text-[var(--hero-fg)]">
         <div className="flex items-center justify-between">
-          <span className="text-xs uppercase tracking-widest text-stone-400">Số dư tháng</span>
+          <span className="text-xs uppercase tracking-widest text-[var(--hero-muted)]">Số dư tháng</span>
           <button
             onClick={onOpenBudget}
-            className="rounded-xl bg-white/10 p-2 text-stone-400 transition-colors hover:bg-white/20 hover:text-white"
+            className="rounded-xl bg-white/10 p-2 text-[var(--hero-muted)] transition-colors hover:bg-white/20 hover:text-[var(--hero-fg)]"
             aria-label="Ngân sách"
           >
             <Target size={15} />
@@ -101,10 +101,10 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
             <span
               className={
                 comparison.direction === 'up'
-                  ? 'text-rose-300'
+                  ? 'text-[var(--red-fg)]'
                   : comparison.direction === 'down'
-                    ? 'text-emerald-300'
-                    : 'text-stone-400'
+                    ? 'text-[var(--green-fg)]'
+                    : 'text-[var(--hero-muted)]'
               }
             >
               {comparison.direction === 'up' ? '↑' : comparison.direction === 'down' ? '↓' : '→'}{' '}
@@ -117,13 +117,13 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
 
         {/* Cảnh báo ngân sách */}
         {budgetSummary.hasBudget && budgetSummary.status === 'over' && (
-          <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-rose-500/20 px-3 py-1.5 text-xs font-medium text-rose-200">
+          <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-rose-500/25 px-3 py-1.5 text-xs font-medium text-[var(--hero-fg)]">
             <AlertTriangle size={12} />
             Vượt ngân sách {formatCompactVND(Math.abs(budgetSummary.remaining))}
           </div>
         )}
         {budgetSummary.hasBudget && budgetSummary.status === 'warn' && (
-          <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-amber-500/20 px-3 py-1.5 text-xs font-medium text-amber-200">
+          <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-amber-500/25 px-3 py-1.5 text-xs font-medium text-[var(--hero-fg)]">
             <AlertTriangle size={12} />
             Đã dùng {budgetSummary.percent.toFixed(0)}% ngân sách
           </div>
@@ -136,20 +136,20 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
 
         <div className="mt-4 grid grid-cols-2 gap-4">
           <div>
-            <div className="flex items-center gap-1.5 text-xs text-stone-400">
+            <div className="flex items-center gap-1.5 text-xs text-[var(--hero-muted)]">
               <TrendingUp size={12} />
               Thu nhập
             </div>
-            <div className="mt-1 text-base font-semibold text-emerald-300">
+            <div className="mt-1 text-base font-semibold text-[var(--green-fg)]">
               {formatCompactVND(totals.income)}
             </div>
           </div>
           <div className="text-right">
-            <div className="flex items-center justify-end gap-1.5 text-xs text-stone-400">
+            <div className="flex items-center justify-end gap-1.5 text-xs text-[var(--hero-muted)]">
               <TrendingDown size={12} />
               Chi tiêu
             </div>
-            <div className="mt-1 text-base font-semibold text-rose-300">
+            <div className="mt-1 text-base font-semibold text-[var(--red-fg)]">
               {formatCompactVND(totals.expense)}
             </div>
           </div>
@@ -157,18 +157,18 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
       </div>
 
       {/* Biểu đồ dòng tiền */}
-      <div className="rounded-3xl border border-stone-200 bg-white p-5 dark:border-stone-700 dark:bg-stone-800">
+      <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-200">Dòng tiền</h2>
-          <div className="flex rounded-lg bg-stone-100 p-0.5 dark:bg-stone-700">
+          <h2 className="text-sm font-semibold text-[var(--fg)]">Dòng tiền</h2>
+          <div className="flex rounded-lg bg-[var(--surface-soft)] p-0.5">
             {TABS.map((t) => (
               <button
                 key={t.key}
                 onClick={() => setPeriod(t.key)}
                 className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
                   period === t.key
-                    ? 'bg-white text-stone-800 shadow-sm dark:bg-stone-600 dark:text-stone-100'
-                    : 'text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200'
+                    ? 'bg-[var(--surface)] text-[var(--fg)] shadow-sm'
+                    : 'text-[var(--muted)] hover:text-[var(--fg)]'
                 }`}
               >
                 {t.label}
@@ -181,7 +181,7 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
             <BarChart data={dayPoints} barGap={2}>
               <XAxis
                 dataKey="label"
-                tick={{ fontSize: 10, fill: '#a8a29e' }}
+                tick={{ fontSize: 10, fill: 'var(--muted)' }}
                 axisLine={false}
                 tickLine={false}
                 interval="preserveStartEnd"
@@ -192,7 +192,7 @@ export default function SummaryCards({ transactions, anchor, onAnchorChange, onO
                 contentStyle={{
                   fontSize: 12,
                   borderRadius: 12,
-                  border: '1px solid #e7e5e4',
+                  border: '1px solid var(--border)',
                   boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
                   backgroundColor: 'var(--tooltip-bg, #fff)',
                 }}

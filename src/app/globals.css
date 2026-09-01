@@ -1,77 +1,70 @@
 @import "tailwindcss";
 
-@theme {
-  --animate-fade-in: fade-in 0.25s ease-out;
-  --animate-slide-up: slide-up 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  --animate-toast-in: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  --animate-pop: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+/* Bắt buộc: dark: chạy theo class .dark (theme toggle), không theo OS */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @keyframes slide-up {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  @keyframes toast-in {
-    from {
-      opacity: 0;
-      transform: translate(-50%, 16px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-  }
-  @keyframes pop {
-    from {
-      opacity: 0;
-      transform: scale(0.96) translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-}
-
+/* ── Warm palette ─────────────────────────────────── */
 :root {
-  --background: #faf9f7;
-  --foreground: #1c1917;
+  --bg: #f2ede7;
+  --fg: #2d2520;
+  --surface: #ffffff;
+  --surface-soft: #faf6f2;
+  --border: #e0d8d0;
+  --border-soft: #ede6e0;
+  --muted: #9c9188;
+  --muted-soft: #c4bbb2;
+  --hero: #3d352e;
+  --hero-fg: #f0e8e0;
+  --hero-muted: #a89c92;
+  --green: #2e7d5e;
+  --green-bg: #e6f3ed;
+  --green-fg: #1e6a4e;
+  --red: #c1443a;
+  --red-bg: #f7e8e6;
+  --red-fg: #ae342a;
+  --amber: #b8860b;
+  --amber-bg: #faf3e0;
   --tooltip-bg: #fff;
-  --card-bg: #fff;
-  --border: #e7e5e4;
+  --scrollbar: #d4ccc4;
 }
 
 .dark {
-  --background: #1c1917;
-  --foreground: #e7e5e4;
-  --tooltip-bg: #292524;
-  --card-bg: #292524;
-  --border: #44403c;
+  --bg: #2d2520;
+  --fg: #e8ddd5;
+  --surface: #3d352e;
+  --surface-soft: #352d26;
+  --border: #4d453e;
+  --border-soft: #3d352e;
+  --muted: #9c9188;
+  --muted-soft: #7a7068;
+  --hero: #1e1814;
+  --hero-fg: #e8ddd5;
+  --hero-muted: #8a7e74;
+  --green: #3d9b7a;
+  --green-bg: #1e3329;
+  --green-fg: #6fc4a0;
+  --red: #d86056;
+  --red-bg: #3a1f1c;
+  --red-fg: #e88078;
+  --amber: #d4a017;
+  --amber-bg: #3d3010;
+  --tooltip-bg: #3d352e;
+  --scrollbar: #5d554e;
 }
 
+/* ── Base ─────────────────────────────────────────── */
 * {
   box-sizing: border-box;
 }
 
 html {
-  background: var(--background);
+  background: var(--bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  transition: background-color 0.2s, color 0.2s;
+  background: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .font-display {
@@ -87,14 +80,19 @@ input[type="date"] {
   color-scheme: dark;
 }
 
-/* Scrollbar mỏng cho dark */
-.dark ::-webkit-scrollbar {
+/* ── Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar {
   width: 4px;
 }
-.dark ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: transparent;
 }
-.dark ::-webkit-scrollbar-thumb {
-  background: #57534e;
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
   border-radius: 999px;
+}
+
+/* ── Recharts tooltip ─────────────────────────────── */
+.recharts-tooltip-wrapper {
+  outline: none;
 }

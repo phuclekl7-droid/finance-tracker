@@ -63,21 +63,21 @@ export default function Home() {
         <div className="flex gap-2">
           <button
             onClick={toggleTheme}
-            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-400 dark:hover:bg-stone-600 dark:hover:text-stone-200"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 text-[var(--muted)] shadow-xs transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
             aria-label={theme === 'light' ? 'Chế độ tối' : 'Chế độ sáng'}
           >
             {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
           </button>
           <button
             onClick={() => setShowAnalytics(true)}
-            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-400 dark:hover:bg-stone-600 dark:hover:text-stone-200"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 text-[var(--muted)] shadow-xs transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
             aria-label="Phân tích"
           >
             <ChartColumn size={17} />
           </button>
           <button
             onClick={() => setShowSettings(true)}
-            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-400 dark:hover:bg-stone-600 dark:hover:text-stone-200"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 text-[var(--muted)] shadow-xs transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--fg)]"
             aria-label="Cài đặt"
           >
             <Settings2 size={17} />

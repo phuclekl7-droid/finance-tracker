@@ -36,7 +36,7 @@ export default function TransactionList({ transactions, onDelete, onEdit }: Prop
           placeholder="Tìm theo tên, danh mục, số tiền…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-2xl border border-stone-200 bg-stone-50/50 py-2.5 pl-9 pr-4 text-sm text-stone-700 outline-none transition-colors focus:border-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-100 dark:border-stone-600 dark:bg-stone-700/50 dark:text-stone-200 dark:focus:border-stone-500 dark:focus:bg-stone-700"
+          className="w-full rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] py-2.5 pl-9 pr-4 text-sm text-[var(--fg)] outline-none transition-colors focus:border-[var(--muted)] focus:bg-[var(--surface)] focus:ring-2 focus:ring-[var(--border-soft)]"
         />
       </div>
 
@@ -64,7 +64,7 @@ export default function TransactionList({ transactions, onDelete, onEdit }: Prop
               return (
                 <div
                   key={t.id}
-                  className="flex items-center gap-3 rounded-2xl bg-white px-3.5 py-3 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-px dark:bg-stone-800 dark:shadow-stone-700/30"
+                  className="flex items-center gap-3 rounded-2xl bg-[var(--surface)] px-3.5 py-3 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-px"
                 >
                   <div
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"

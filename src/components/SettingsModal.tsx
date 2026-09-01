@@ -92,8 +92,8 @@ export default function SettingsModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm animate-fade-in dark:bg-black/50 sm:items-center">
-      <div className="w-full max-w-md rounded-t-3xl bg-white px-6 pb-8 pt-5 animate-slide-up dark:bg-stone-800 sm:rounded-3xl sm:animate-pop">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm animate-fade-in dark:bg-[var(--hero)]/60 sm:items-center">
+      <div className="w-full max-w-md rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
@@ -113,7 +113,7 @@ export default function SettingsModal({
         <div className="space-y-3">
           <button
             onClick={handleExport}
-            className="flex w-full items-center gap-3 rounded-2xl border border-stone-200 bg-white px-4 py-3.5 text-left transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:hover:bg-stone-600"
+            className="flex w-full items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-left transition-colors hover:bg-[var(--surface-soft)]"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-600 dark:text-stone-300">
               <Download size={16} />
@@ -126,7 +126,7 @@ export default function SettingsModal({
 
           <button
             onClick={handleExportCsv}
-            className="flex w-full items-center gap-3 rounded-2xl border border-stone-200 bg-white px-4 py-3.5 text-left transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:hover:bg-stone-600"
+            className="flex w-full items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-left transition-colors hover:bg-[var(--surface-soft)]"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-600 dark:text-stone-300">
               <FileSpreadsheet size={16} />
@@ -139,7 +139,7 @@ export default function SettingsModal({
 
           <button
             onClick={() => fileRef.current?.click()}
-            className="flex w-full items-center gap-3 rounded-2xl border border-stone-200 bg-white px-4 py-3.5 text-left transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:hover:bg-stone-600"
+            className="flex w-full items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-left transition-colors hover:bg-[var(--surface-soft)]"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-600 dark:text-stone-300">
               <Upload size={16} />
@@ -159,7 +159,7 @@ export default function SettingsModal({
 
           <button
             onClick={onAddSample}
-            className="flex w-full items-center gap-3 rounded-2xl border border-stone-200 bg-white px-4 py-3.5 text-left transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:hover:bg-stone-600"
+            className="flex w-full items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-left transition-colors hover:bg-[var(--surface-soft)]"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-600 dark:text-stone-300">
               <Sparkles size={16} />
@@ -172,7 +172,7 @@ export default function SettingsModal({
 
           <button
             onClick={handleClear}
-            className="flex w-full items-center gap-3 rounded-2xl border border-rose-200 bg-white px-4 py-3.5 text-left transition-colors hover:bg-rose-50 dark:border-rose-800 dark:bg-stone-700 dark:hover:bg-rose-900/40"
+            className="flex w-full items-center gap-3 rounded-2xl border border-[var(--red-bg)] bg-[var(--surface)] px-4 py-3.5 text-left transition-colors hover:bg-[var(--red-bg)]"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-50 text-rose-500 dark:bg-rose-900/30 dark:text-rose-400">
               <Trash2 size={16} />

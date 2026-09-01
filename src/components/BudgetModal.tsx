@@ -65,8 +65,8 @@ export default function BudgetModal({ transactions, anchor, onClose, onSaved }: 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm animate-fade-in dark:bg-black/50 sm:items-center">
-      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white px-6 pb-8 pt-5 animate-slide-up dark:bg-stone-800 sm:rounded-3xl sm:animate-pop">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm animate-fade-in dark:bg-[var(--hero)]/60 sm:items-center">
+      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
@@ -157,7 +157,7 @@ export default function BudgetModal({ transactions, anchor, onClose, onSaved }: 
           {editing ? (
             <button
               onClick={handleSave}
-              className="flex items-center gap-1.5 rounded-xl bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700 dark:bg-stone-600 dark:hover:bg-stone-500"
+              className="flex items-center gap-1.5 rounded-xl bg-[var(--hero)] px-4 py-2 text-sm font-medium text-[var(--hero-fg)] transition-colors hover:brightness-110"
             >
               <Save size={14} />
               Lưu

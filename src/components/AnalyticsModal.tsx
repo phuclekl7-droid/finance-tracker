@@ -22,8 +22,8 @@ export default function AnalyticsModal({ transactions, anchor, onClose }: Props)
   const totalExpense = catTotals.reduce((s, c) => s + c.amount, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm animate-fade-in sm:items-center">
-      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm animate-fade-in sm:items-center">
+      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600">
@@ -48,13 +48,13 @@ export default function AnalyticsModal({ transactions, anchor, onClose }: Props)
           <div className="space-y-6">
             {/* Tổng quan */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-emerald-50 p-3.5">
+              <div className="rounded-2xl bg-[var(--green-bg)] p-3.5">
                 <div className="text-xs font-medium text-emerald-600">Thu nhập</div>
                 <div className="mt-1 font-display text-lg font-bold text-emerald-700">
                   {formatCompactVND(summary.income)}
                 </div>
               </div>
-              <div className="rounded-2xl bg-rose-50 p-3.5">
+              <div className="rounded-2xl bg-[var(--red-bg)] p-3.5">
                 <div className="text-xs font-medium text-rose-600">Chi tiêu</div>
                 <div className="mt-1 font-display text-lg font-bold text-rose-700">
                   {formatCompactVND(summary.expense)}
@@ -76,7 +76,7 @@ export default function AnalyticsModal({ transactions, anchor, onClose }: Props)
 
             {/* Khoản chi lớn nhất */}
             {summary.topCategory && (
-              <div className="rounded-2xl border border-stone-200 bg-white p-4">
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
                 <div className="text-xs font-medium text-stone-400">Khoản chi lớn nhất</div>
                 <div className="mt-1.5 flex items-center gap-2">
                   <span
