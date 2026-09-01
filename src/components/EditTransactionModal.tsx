@@ -5,6 +5,7 @@ import { X, Save } from 'lucide-react';
 import type { CategoryId, Transaction, TransactionType } from '@/lib/types';
 import { CATEGORIES, EXPENSE_CATEGORIES } from '@/lib/categories';
 import { CategoryIcon } from './CategoryIcon';
+import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 interface Props {
   transaction: Transaction;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function EditTransactionModal({ transaction, onSave, onClose }: Props) {
+  useLockBodyScroll(true);
   const [type, setType] = useState<TransactionType>(transaction.type);
   const [amount, setAmount] = useState(String(transaction.amount));
   const [category, setCategory] = useState<CategoryId>(transaction.category);
@@ -36,8 +38,8 @@ export default function EditTransactionModal({ transaction, onSave, onClose }: P
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm dark:bg-black/50 sm:items-center">
-      <div className="w-full max-w-md rounded-t-3xl bg-white px-6 pb-8 pt-5 dark:bg-stone-800 sm:rounded-3xl">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm animate-fade-in dark:bg-black/50 sm:items-center">
+      <div className="w-full max-w-md rounded-t-3xl bg-white px-6 pb-8 pt-5 animate-slide-up dark:bg-stone-800 sm:rounded-3xl sm:animate-pop">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-base font-bold text-stone-800 dark:text-stone-100">Chỉnh sửa giao dịch</h2>
           <button

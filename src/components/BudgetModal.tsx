@@ -11,6 +11,7 @@ import {
   summarizeBudget,
 } from '@/lib/budget';
 import { formatCompactVND, formatVND } from '@/lib/utils';
+import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 interface Props {
   transactions: Transaction[];
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function BudgetModal({ transactions, anchor, onClose, onSaved }: Props) {
+  useLockBodyScroll(true);
   const summary = useMemo(
     () => summarizeBudget(transactions, anchor.year, anchor.month),
     [transactions, anchor],
@@ -63,8 +65,8 @@ export default function BudgetModal({ transactions, anchor, onClose, onSaved }: 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm dark:bg-black/50 sm:items-center">
-      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white px-6 pb-8 pt-5 dark:bg-stone-800 sm:rounded-3xl">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-stone-900/40 backdrop-blur-sm animate-fade-in dark:bg-black/50 sm:items-center">
+      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white px-6 pb-8 pt-5 animate-slide-up dark:bg-stone-800 sm:rounded-3xl sm:animate-pop">
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">

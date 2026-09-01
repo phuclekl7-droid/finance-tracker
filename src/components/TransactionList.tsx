@@ -64,7 +64,7 @@ export default function TransactionList({ transactions, onDelete, onEdit }: Prop
               return (
                 <div
                   key={t.id}
-                  className="flex items-center gap-3 rounded-2xl bg-white px-3.5 py-3 shadow-sm transition-shadow hover:shadow-md dark:bg-stone-800 dark:shadow-stone-700/30"
+                  className="flex items-center gap-3 rounded-2xl bg-white px-3.5 py-3 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-px dark:bg-stone-800 dark:shadow-stone-700/30"
                 >
                   <div
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
