@@ -7,23 +7,37 @@ import { CategoryIcon } from './CategoryIcon';
 import { categoryTotals, formatCompactVND, formatVND, summarizeMonth } from '@/lib/utils';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, PieLabelRenderProps } from 'recharts';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
+import { useDelayedUnmount } from '@/hooks/useDelayedUnmount';
 
 interface Props {
+  show: boolean;
   transactions: Transaction[];
   anchor: { year: number; month: number };
   onClose: () => void;
 }
 
-export default function AnalyticsModal({ transactions, anchor, onClose }: Props) {
-  useLockBodyScroll(true);
+export default function AnalyticsModal({ show, transactions, anchor, onClose }: Props) {
+  useLockBodyScroll(show);
+  const { mounted, phase } = useDelayedUnmount(show);
   const summary = useMemo(() => summarizeMonth(transactions, anchor.year, anchor.month), [transactions, anchor]);
   const catTotals = useMemo(() => categoryTotals(transactions, anchor.year, anchor.month), [transactions, anchor]);
 
   const totalExpense = catTotals.reduce((s, c) => s + c.amount, 0);
 
+  if (!mounted) return null;
+  const entering = phase === 'entering';
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm animate-fade-in sm:items-center">
-      <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
+    <div
+      className={`fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm ${
+        entering ? 'animate-fade-in' : 'animate-fade-out'
+      } sm:items-center`}
+    >
+      <div
+        className={`max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 ${
+          entering ? 'animate-slide-up sm:animate-pop' : 'animate-slide-down sm:animate-pop-out'
+        } sm:rounded-3xl`}
+      >
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600">

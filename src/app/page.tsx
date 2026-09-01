@@ -113,45 +113,41 @@ export default function Home() {
         </div>
       )}
 
-      {showAnalytics && (
-        <AnalyticsModal
-          transactions={transactions}
-          anchor={anchor}
-          onClose={() => setShowAnalytics(false)}
-        />
-      )}
+      <AnalyticsModal
+        show={showAnalytics}
+        transactions={transactions}
+        anchor={anchor}
+        onClose={() => setShowAnalytics(false)}
+      />
 
-      {showBudget && (
-        <BudgetModal
-          key={budgetKey}
-          transactions={transactions}
-          anchor={anchor}
-          onClose={() => setShowBudget(false)}
-          onSaved={() => setBudgetKey((k) => k + 1)}
-        />
-      )}
+      <BudgetModal
+        key={budgetKey}
+        show={showBudget}
+        transactions={transactions}
+        anchor={anchor}
+        onClose={() => setShowBudget(false)}
+        onSaved={() => setBudgetKey((k) => k + 1)}
+      />
 
-      {showSettings && (
-        <SettingsModal
-          onClearAll={clearAll}
-          onAddSample={addSampleData}
-          onExport={exportData}
-          onExportCsv={exportCsv}
-          onImport={importData}
-          onClose={() => setShowSettings(false)}
-        />
-      )}
+      <SettingsModal
+        show={showSettings}
+        onClearAll={clearAll}
+        onAddSample={addSampleData}
+        onExport={exportData}
+        onExportCsv={exportCsv}
+        onImport={importData}
+        onClose={() => setShowSettings(false)}
+      />
 
-      {editingTx && (
-        <EditTransactionModal
-          transaction={editingTx}
-          onSave={(t) => {
-            editTransaction(t);
-            setEditingTx(null);
-          }}
-          onClose={() => setEditingTx(null)}
-        />
-      )}
+      <EditTransactionModal
+        show={!!editingTx}
+        transaction={editingTx ?? ({} as Transaction)}
+        onSave={(t) => {
+          editTransaction(t);
+          setEditingTx(null);
+        }}
+        onClose={() => setEditingTx(null)}
+      />
 
       <UndoToast
         visible={showUndo}

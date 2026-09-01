@@ -3,6 +3,51 @@
 /* Bắt buộc: dark: chạy theo class .dark (theme toggle), không theo OS */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Animations ──────────────────────────────────── */
+@theme {
+  --animate-fade-in: fade-in 0.25s ease-out;
+  --animate-fade-out: fade-out 0.2s ease-in;
+  --animate-slide-up: slide-up 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-down: slide-down 0.25s cubic-bezier(0.4, 0, 0.6, 1);
+  --animate-toast-in: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-toast-out: toast-out 0.2s ease-in;
+  --animate-pop: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-pop-out: pop-out 0.2s ease-in;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes slide-down {
+    from { transform: translateY(0); }
+    to { transform: translateY(100%); }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translate(-50%, 16px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+  @keyframes toast-out {
+    from { opacity: 1; transform: translate(-50%, 0); }
+    to { opacity: 0; transform: translate(-50%, 16px); }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.96) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes pop-out {
+    from { opacity: 1; transform: scale(1) translateY(0); }
+    to { opacity: 0; transform: scale(0.96) translateY(8px); }
+  }
+}
+
 /* ── Warm palette ─────────────────────────────────── */
 :root {
   --bg: #f2ede7;

@@ -6,15 +6,19 @@ import type { CategoryId, Transaction, TransactionType } from '@/lib/types';
 import { CATEGORIES, EXPENSE_CATEGORIES } from '@/lib/categories';
 import { CategoryIcon } from './CategoryIcon';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
+import { useDelayedUnmount } from '@/hooks/useDelayedUnmount';
 
 interface Props {
+  show: boolean;
   transaction: Transaction;
   onSave: (t: Transaction) => void;
   onClose: () => void;
 }
 
-export default function EditTransactionModal({ transaction, onSave, onClose }: Props) {
-  useLockBodyScroll(true);
+export default function EditTransactionModal({ show, transaction, onSave, onClose }: Props) {
+  useLockBodyScroll(show);
+  const { mounted, phase } = useDelayedUnmount(show);
+  const entering = phase === 'entering';
   const [type, setType] = useState<TransactionType>(transaction.type);
   const [amount, setAmount] = useState(String(transaction.amount));
   const [category, setCategory] = useState<CategoryId>(transaction.category);
@@ -37,9 +41,19 @@ export default function EditTransactionModal({ transaction, onSave, onClose }: P
     });
   };
 
+  if (!mounted) return null;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm animate-fade-in dark:bg-[var(--hero)]/60 sm:items-center">
-      <div className="w-full max-w-md rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
+    <div
+      className={`fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm dark:bg-[var(--hero)]/60 ${
+        entering ? 'animate-fade-in' : 'animate-fade-out'
+      } sm:items-center`}
+    >
+      <div
+        className={`w-full max-w-md rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 ${
+          entering ? 'animate-slide-up sm:animate-pop' : 'animate-slide-down sm:animate-pop-out'
+        } sm:rounded-3xl`}
+      >
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-base font-bold text-stone-800 dark:text-stone-100">Chỉnh sửa giao dịch</h2>
           <button

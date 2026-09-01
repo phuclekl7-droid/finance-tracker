@@ -3,8 +3,10 @@
 import { useRef, useState } from 'react';
 import { Download, Settings, Sparkles, Trash2, Upload, X, FileSpreadsheet } from 'lucide-react';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
+import { useDelayedUnmount } from '@/hooks/useDelayedUnmount';
 
 interface Props {
+  show: boolean;
   onClearAll: () => void;
   onAddSample: () => void;
   onExport: () => Promise<string>;
@@ -14,6 +16,7 @@ interface Props {
 }
 
 export default function SettingsModal({
+  show,
   onClearAll,
   onAddSample,
   onExport,
@@ -24,7 +27,9 @@ export default function SettingsModal({
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  useLockBodyScroll(true);
+  useLockBodyScroll(show);
+  const { mounted, phase } = useDelayedUnmount(show);
+  const entering = phase === 'entering';
 
   const flash = (msg: string, isError = false) => {
     setError(isError ? msg : null);
@@ -91,9 +96,19 @@ export default function SettingsModal({
     }
   };
 
+  if (!mounted) return null;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm animate-fade-in dark:bg-[var(--hero)]/60 sm:items-center">
-      <div className="w-full max-w-md rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 animate-slide-up sm:rounded-3xl sm:animate-pop">
+    <div
+      className={`fixed inset-0 z-50 flex items-end justify-center bg-[var(--hero)]/40 backdrop-blur-sm dark:bg-[var(--hero)]/60 ${
+        entering ? 'animate-fade-in' : 'animate-fade-out'
+      } sm:items-center`}
+    >
+      <div
+        className={`w-full max-w-md rounded-t-3xl bg-[var(--surface)] px-6 pb-8 pt-5 ${
+          entering ? 'animate-slide-up sm:animate-pop' : 'animate-slide-down sm:animate-pop-out'
+        } sm:rounded-3xl`}
+      >
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
