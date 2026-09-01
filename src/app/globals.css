@@ -3,6 +3,17 @@
 :root {
   --background: #faf9f7;
   --foreground: #1c1917;
+  --tooltip-bg: #fff;
+  --card-bg: #fff;
+  --border: #e7e5e4;
+}
+
+.dark {
+  --background: #1c1917;
+  --foreground: #e7e5e4;
+  --tooltip-bg: #292524;
+  --card-bg: #292524;
+  --border: #44403c;
 }
 
 * {
@@ -16,6 +27,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .font-display {
@@ -23,7 +35,22 @@ body {
   letter-spacing: -0.02em;
 }
 
-/* Input date mặc định trong suốt để hợp warm theme */
 input[type="date"] {
   color-scheme: light;
+}
+
+.dark input[type="date"] {
+  color-scheme: dark;
+}
+
+/* Scrollbar mỏng cho dark */
+.dark ::-webkit-scrollbar {
+  width: 4px;
+}
+.dark ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #57534e;
+  border-radius: 999px;
 }

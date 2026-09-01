@@ -272,3 +272,41 @@ export function groupByMonth(transactions: Transaction[]): MonthGroup[] {
   groups.sort((a, b) => b.key.localeCompare(a.key));
   return groups;
 }
+
+/** So sánh chi tiêu với tháng trước: trả về % thay đổi và mức tăng/giảm */
+export function compareToPrevMonth(
+  transactions: Transaction[],
+  year: number,
+  month: number,
+): { pct: number; direction: 'up' | 'down' | 'flat'; diff: number; hasPrev: boolean } | null {
+  const cur = monthlyTotals(transactions, year, month).expense;
+  const prevAnchor = shiftMonth({ year, month }, -1);
+  const prev = monthlyTotals(transactions, prevAnchor.year, prevAnchor.month).expense;
+
+  if (prev <= 0) return null;
+
+  const pct = ((cur - prev) / prev) * 100;
+  const direction: 'up' | 'down' | 'flat' = Math.abs(pct) < 0.5 ? 'flat' : pct > 0 ? 'up' : 'down';
+  return { pct, direction, diff: cur - prev, hasPrev: true };
+}
+
+/** Xuất giao dịch thành chuỗi CSV (dấu phẩy) */
+export function transactionsToCsv(transactions: Transaction[]): string {
+  const esc = (v: string | number) => {
+    const s = String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const header = ['Ngày', 'Loại', 'Danh mục', 'Số tiền (VND)', 'Ghi chú'];
+  const rows = [...transactions].sort((a, b) => b.date.localeCompare(a.date)).map((t) =>
+    [
+      t.date,
+      t.type === 'income' ? 'Thu' : 'Chi',
+      CATEGORY_MAP[t.category].label,
+      t.amount,
+      t.note,
+    ]
+      .map(esc)
+      .join(','),
+  );
+  return [header.join(','), ...rows].join('\n');
+}

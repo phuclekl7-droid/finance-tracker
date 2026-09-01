@@ -62,6 +62,10 @@ export async function deleteTransaction(id: string): Promise<void> {
   });
 }
 
+export async function updateTransaction(t: Transaction): Promise<void> {
+  await putTransaction(t);
+}
+
 export async function clearAllTransactions(): Promise<void> {
   const db = await openDb();
   const tx = db.transaction(STORE, 'readwrite');

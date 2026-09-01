@@ -9,8 +9,10 @@ import {
   getAllTransactions,
   importTransactions,
   putTransaction,
+  updateTransaction,
 } from '@/lib/db';
 import { nanoid } from 'nanoid';
+import { transactionsToCsv } from '@/lib/utils';
 
 export function useTransactions() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -39,6 +41,11 @@ export function useTransactions() {
     setTransactions((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
+  const editTransaction = useCallback(async (t: Transaction) => {
+    await updateTransaction(t);
+    setTransactions((prev) => prev.map((x) => (x.id === t.id ? t : x)));
+  }, []);
+
   const clearAll = useCallback(async () => {
     await clearAllTransactions();
     setTransactions([]);
@@ -55,6 +62,10 @@ export function useTransactions() {
     setTransactions(reloaded);
     return count;
   }, []);
+
+  const exportCsv = useCallback((): string => {
+    return transactionsToCsv(transactions);
+  }, [transactions]);
 
   const addSampleData = useCallback(async () => {
     const now = new Date();
@@ -95,8 +106,10 @@ export function useTransactions() {
     loaded,
     addTransaction,
     removeTransaction,
+    editTransaction,
     clearAll,
     exportData,
+    exportCsv,
     importData,
     addSampleData,
   };

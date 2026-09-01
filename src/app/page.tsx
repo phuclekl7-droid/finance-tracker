@@ -1,15 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { ChartColumn, Settings2 } from 'lucide-react';
+import { ChartColumn, Settings2, Sun, Moon } from 'lucide-react';
 import { useTransactions } from '@/hooks/useTransactions';
+import { useTheme } from '@/hooks/useTheme';
 import SummaryCards from '@/components/SummaryCards';
 import TransactionForm from '@/components/TransactionForm';
 import TransactionList from '@/components/TransactionList';
 import AnalyticsModal from '@/components/AnalyticsModal';
+import BudgetModal from '@/components/BudgetModal';
 import SettingsModal from '@/components/SettingsModal';
+import EditTransactionModal from '@/components/EditTransactionModal';
 import { SectionCard } from '@/components/Card';
 import { currentMonthAnchor } from '@/lib/utils';
+import type { Transaction } from '@/lib/types';
 
 export default function Home() {
   const {
@@ -17,36 +21,51 @@ export default function Home() {
     loaded,
     addTransaction,
     removeTransaction,
+    editTransaction,
     clearAll,
     exportData,
+    exportCsv,
     importData,
     addSampleData,
   } = useTransactions();
+  const { theme, mounted, toggleTheme } = useTheme();
   const [anchor, setAnchor] = useState(currentMonthAnchor);
   const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showBudget, setShowBudget] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [editingTx, setEditingTx] = useState<Transaction | null>(null);
+  const [budgetKey, setBudgetKey] = useState(0);
+
+  if (!mounted) return null;
 
   return (
     <div className="mx-auto min-h-screen max-w-lg px-4 pb-24 pt-5">
       {/* Header */}
       <header className="mb-5 flex items-center justify-between">
         <div>
-          <h1 className="font-display text-xl font-bold tracking-tight text-stone-900">
+          <h1 className="font-display text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100">
             Sổ chi tiêu
           </h1>
-          <p className="text-xs text-stone-400">Quản lý thu chi của bạn</p>
+          <p className="text-xs text-stone-400 dark:text-stone-500">Quản lý thu chi của bạn</p>
         </div>
         <div className="flex gap-2">
           <button
+            onClick={toggleTheme}
+            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-400 dark:hover:bg-stone-600 dark:hover:text-stone-200"
+            aria-label={theme === 'light' ? 'Chế độ tối' : 'Chế độ sáng'}
+          >
+            {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
+          </button>
+          <button
             onClick={() => setShowAnalytics(true)}
-            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700"
+            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-400 dark:hover:bg-stone-600 dark:hover:text-stone-200"
             aria-label="Phân tích"
           >
             <ChartColumn size={17} />
           </button>
           <button
             onClick={() => setShowSettings(true)}
-            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700"
+            className="rounded-xl border border-stone-200 bg-white p-2.5 text-stone-500 shadow-xs transition-colors hover:bg-stone-50 hover:text-stone-700 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-400 dark:hover:bg-stone-600 dark:hover:text-stone-200"
             aria-label="Cài đặt"
           >
             <Settings2 size={17} />
@@ -56,26 +75,32 @@ export default function Home() {
 
       {!loaded ? (
         <div className="flex items-center justify-center py-24">
-          <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-stone-200 border-t-stone-700" />
+          <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-stone-200 border-t-stone-700 dark:border-stone-600 dark:border-t-stone-300" />
         </div>
       ) : (
         <div className="space-y-4">
-          {/* Tóm tắt + biểu đồ */}
-          <SummaryCards transactions={transactions} anchor={anchor} onAnchorChange={setAnchor} />
+          <SummaryCards
+            transactions={transactions}
+            anchor={anchor}
+            onAnchorChange={setAnchor}
+            onOpenBudget={() => setShowBudget(true)}
+            budgetVersion={budgetKey}
+          />
 
-          {/* Thêm giao dịch */}
           <SectionCard title="Thêm giao dịch">
             <TransactionForm onAdd={addTransaction} />
           </SectionCard>
 
-          {/* Danh sách */}
           <SectionCard title="Lịch sử giao dịch">
-            <TransactionList transactions={transactions} onDelete={removeTransaction} />
+            <TransactionList
+              transactions={transactions}
+              onDelete={removeTransaction}
+              onEdit={setEditingTx}
+            />
           </SectionCard>
         </div>
       )}
 
-      {/* Modals */}
       {showAnalytics && (
         <AnalyticsModal
           transactions={transactions}
@@ -83,13 +108,36 @@ export default function Home() {
           onClose={() => setShowAnalytics(false)}
         />
       )}
+
+      {showBudget && (
+        <BudgetModal
+          key={budgetKey}
+          transactions={transactions}
+          anchor={anchor}
+          onClose={() => setShowBudget(false)}
+          onSaved={() => setBudgetKey((k) => k + 1)}
+        />
+      )}
+
       {showSettings && (
         <SettingsModal
           onClearAll={clearAll}
           onAddSample={addSampleData}
           onExport={exportData}
+          onExportCsv={exportCsv}
           onImport={importData}
           onClose={() => setShowSettings(false)}
+        />
+      )}
+
+      {editingTx && (
+        <EditTransactionModal
+          transaction={editingTx}
+          onSave={(t) => {
+            editTransaction(t);
+            setEditingTx(null);
+          }}
+          onClose={() => setEditingTx(null)}
         />
       )}
     </div>

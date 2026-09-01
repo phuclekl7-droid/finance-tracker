@@ -44,3 +44,6 @@ export interface DayPoint {
   income: number;
   expense: number;
 }
+
+/** Ngân sách theo danh mục cho một tháng (đơn vị: VND, undefined = chưa đặt) */
+export type Budgets = Partial<Record<CategoryId, number>>;
